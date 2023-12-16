@@ -1,14 +1,16 @@
 import { signOut } from 'firebase/auth'
-import React from 'react'
+import React, { useContext } from 'react'
 import { auth } from '../../firebase'
+import { AuthContext } from '../context/AuthContext'
 
 const Navbar = () => {
+  const {currentUser} = useContext(AuthContext)
   return (
     <div className='navbar'>
-        <span className="logo">Expert chat</span>
+        <span className="logo">Expert Chat</span>
         <div className="user">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Pierre-Person.jpg/1200px-Pierre-Person.jpg" alt="" />
-            <span>Egor</span>
+            <img src={currentUser.photoURL} alt="" />
+            <span>{currentUser.displayName}</span>
             <button onClick={() => signOut(auth)}>logout</button>
         </div>
     </div>
