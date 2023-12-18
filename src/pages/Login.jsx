@@ -28,15 +28,15 @@ const Login = () => {
         <div className="formContainer">
             <div className="formWrapper">
                 <span className="logo">Expert chat</span>
-                <span className="title">Login</span>
+                <span className="title">Вход</span>
                 <form action="" onSubmit={handleSubmit}>
                     <input type="email" placeholder="email" />
-                    <input type="password" placeholder="password" />
-                    <button>Login</button>
-                    {err && <span>Something went wrong</span>}
+                    <input type="password" placeholder="Пароль" />
+                    <button>Войти</button>
+                    {err && <span>Что-то пошло не так...</span>}
 
                 </form>
-                <p>Don't have an account? <Link to={"/register"}>Register</Link></p>
+                <p>Нет аккаунта? <Link to={"/register"}>Зарегестрироваться</Link></p>
             </div>
         </div>
     );

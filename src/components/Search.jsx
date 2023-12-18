@@ -2,10 +2,12 @@ import React, { useContext, useState } from 'react'
 import { collection, query, where, getDoc,doc ,getDocs, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { db } from '../../firebase'
 import { AuthContext } from "../context/AuthContext"
+import { ChatContext } from "../context/ChatContext"
 const Search = () => {
   const [username, setUsername] = useState("")
   const [user, setUser] = useState(null)
   const [err, setErr] = useState(false)
+  const { dispatch } = useContext(ChatContext)
 
   const { currentUser } = useContext(AuthContext)
 
@@ -22,7 +24,7 @@ const Search = () => {
     }
 
   }
-  const handleSelect = async () => {
+  const handleSelect = async (u) => {
     const combinedId =
       currentUser.uid > user.uid
         ? currentUser.uid + user.uid
@@ -39,7 +41,8 @@ const Search = () => {
           [combinedId + ".userInfo"]: {
             uid: user.uid,
             displayName: user.displayName,
-            photoURL: user.photoURL
+            photoURL: user.photoURL,
+            status: user.status
           },
           [combinedId + '.date']: serverTimestamp(),
         })
@@ -52,9 +55,13 @@ const Search = () => {
           [combinedId + '.date']: serverTimestamp(),
         })
       }
+
+      dispatch({type: "CHANGE_USER", payload: user })
     } catch (err) {
       console.log(err)
     }
+    setUser(null)
+    setUsername('')
   }
   const handleKey = e => {
     e.code === 'Enter' && handleSearch()
@@ -62,9 +69,9 @@ const Search = () => {
   return (
     <div className='search'>
       <div className="searchForm">
-        <input type="text" placeholder='Find a name...' onKeyDown={handleKey} onChange={e => setUsername(e.target.value)} />
+        <input type="text" value={username} placeholder='Find a name...' onKeyDown={handleKey} onChange={e => setUsername(e.target.value)} />
       </div>
-      {err && <span>User not found :(</span>}
+      {err && <span>User not found</span>}
       {user &&
 
         <div className="userChat" onClick={handleSelect}>

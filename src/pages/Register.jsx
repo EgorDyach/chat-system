@@ -15,9 +15,10 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         const displayName = e.target[0].value
-        const email = e.target[1].value
-        const password = e.target[2].value
-        const file = e.target[3].files[0]
+        const email = e.target[2].value
+        const status = e.target[1].value
+        const password = e.target[3].value
+        const file = e.target[4].files[0]
         try {
             const res = await createUserWithEmailAndPassword(auth, email, password)
 
@@ -34,7 +35,7 @@ const Register = () => {
                     //create user on firestore
                     await setDoc(doc(db, "users", res.user.uid), {
                       uid: res.user.uid,
-                      displayName,
+                      displayName: `${displayName}`,
                       email,
                       photoURL: downloadURL,
                     });
@@ -58,20 +59,21 @@ const Register = () => {
         <div className="formContainer">
             <div className="formWrapper">
                 <span className="logo">Expert chat</span>
-                <span className="title">Register</span>
+                <span className="title">Регистрация</span>
                 <form onSubmit={handleSubmit}>
-                    <input type="text" placeholder="display name" />
+                    <input type="text" placeholder="Имя" />
+                    <input type="text" placeholder="Эксперт/Новичок" />
                     <input type="email" placeholder="email" />
-                    <input type="passworld" placeholder="password" />
+                    <input type="passworld" placeholder="Пароль" />
                     <input style={{ display: 'none' }} type="file" id="file" />
                     <label htmlFor="file">
                         <img src={Add} alt="" />
-                        <span>Add an avatar</span>
+                        <span>Добавить Аватар</span>
                     </label>
-                    <button>Sign up</button>
-                    {err && <span>Something went wrong</span>}
+                    <button>Зарегестрироваться</button>
+                    {err && <span>Что-то пошло не так...</span>}
                 </form>
-                <p>Do you have an account? <Link to={"/login"}>Login</Link></p>
+                <p>Уже есть аккаунт? <Link to={"/login"}>Войти</Link></p>
             </div>
         </div>
     );
