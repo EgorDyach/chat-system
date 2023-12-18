@@ -1,4 +1,4 @@
-import Add from "../img/AddAvatar.png"
+import Add from "../img/addAvatar.png"
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
